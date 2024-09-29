@@ -5,14 +5,12 @@ import Header from '../components/header';
 import Sidebar from '../components/sidebar';
 import './style.css';
 import { getUserInfo } from '../db'; 
-import useDashboardData from '../hooks/useDashboardData'; 
+
 
 const CompanyDashboard = () => {
-  const { dashboardData, userInfo } = useDashboardData();
   const [currentEmail, setCurrentEmail] = useState('');
-  const [newEmail, setNewEmail] = useState(''); 
+  const [newEmail, setNewEmail] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(false);
-
 
   useEffect(() => {
     // Fetch the user info from IndexedDB
@@ -40,13 +38,11 @@ const CompanyDashboard = () => {
     const token = userInfoFromDB?.token; // Get token from the user info
 
     if (!token) {
-      setResponseMessage('Please log in to update your email.');
       message.warning('Please log in to update your email.'); // Alert for login requirement
       return;
     }
 
     if (currentEmail === newEmail) {
-      setResponseMessage('New email must be different from the current email.');
       message.warning('New email must be different from the current email.'); // Alert for email match
       return;
     }
@@ -64,26 +60,23 @@ const CompanyDashboard = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setResponseMessage('Email updated successfully!');
-        message.success('Email updated successfully!'); // Used antd message for success alert
+        message.success('Email updated successfully!'); // Display success alert
         const updatedUserInfo = { ...userInfoFromDB, email: newEmail };
         localStorage.setItem('userInfo', JSON.stringify(updatedUserInfo)); // Optionally update localStorage as well
         setCurrentEmail(newEmail);
         setNewEmail('');
       } else {
-        setResponseMessage(data.message || 'Failed to update email.');
-        message.error(data.message || 'Failed to update email.'); // Used antd message for error alert
+        message.error(data.message || 'Failed to update email.'); // Display error alert
       }
     } catch (error) {
       console.error('Error updating email:', error);
-      setResponseMessage('An error occurred. Please try again.');
-      message.error('An error occurred. Please try again.'); // Used antd message for error alert
+      message.error('An error occurred. Please try again.'); // Display error alert
     }
   };
 
   return (
     <div className="bg-white">
-      <Header userInfo={userInfo} dashboardMessage={dashboardData?.message} />
+      <Header />
       <Sidebar />
 
       <button className="update" onClick={() => setIsFormVisible(!isFormVisible)}>
