@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Correct import for useRouter in Next.js
+import { useRouter } from 'next/navigation'; 
 import { Alert } from 'antd';
-import './style.css'; // Ensure this import points to your CSS file
-import { storeCompanyDetails, getUserInfo } from '../db'; // Make sure getUserInfo is imported for retrieving token
-
+import './style.css'; 
+import { storeCompanyDetails, getUserInfo } from '../db';
 const AddCompany = () => {
   const [companyDetails, setCompanyDetails] = useState({
     companyName: '',

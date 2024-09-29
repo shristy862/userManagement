@@ -65,19 +65,19 @@ const CompanyDashboard = () => {
 
       if (response.ok) {
         setResponseMessage('Email updated successfully!');
-        message.success('Email updated successfully!'); // Use antd message for success alert
+        message.success('Email updated successfully!'); // Used antd message for success alert
         const updatedUserInfo = { ...userInfoFromDB, email: newEmail };
         localStorage.setItem('userInfo', JSON.stringify(updatedUserInfo)); // Optionally update localStorage as well
         setCurrentEmail(newEmail);
         setNewEmail('');
       } else {
         setResponseMessage(data.message || 'Failed to update email.');
-        message.error(data.message || 'Failed to update email.'); // Use antd message for error alert
+        message.error(data.message || 'Failed to update email.'); // Used antd message for error alert
       }
     } catch (error) {
       console.error('Error updating email:', error);
       setResponseMessage('An error occurred. Please try again.');
-      message.error('An error occurred. Please try again.'); // Use antd message for error alert
+      message.error('An error occurred. Please try again.'); // Used antd message for error alert
     }
   };
 

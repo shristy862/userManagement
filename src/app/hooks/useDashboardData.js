@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getUserInfo } from '../db'; // Adjust the path if necessary
+import { getUserInfo } from '../db'; 
 
 const useDashboardData = () => {
   const [dashboardData, setDashboardData] = useState(null);
