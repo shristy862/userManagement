@@ -1,0 +1,108 @@
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    min-height: 100vh;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    color: black;
+    margin-bottom: 1rem;
+  }
+  
+  /* Form styles */
+  .flex {
+    display: flex;
+  }
+  
+  .flex-col {
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  /* Input field styles */
+  .input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+  }
+  
+  .input.warning {
+    border-color: #d69e2e; 
+  }
+  
+  .input.error {
+    border-color: #e53e3e;
+  }
+  
+  .input.success {
+    border-color: #0b522c;
+  }
+  
+  .input:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.1rem rgba(66, 153, 225, 0.5);
+  }
+  
+  /* Button styles */
+  .submit-button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-button:hover:not(.disabled) {
+    background-color: #041e38;
+  }
+  
+  .disabled {
+    background-color: black; 
+    cursor: not-allowed;
+  }
+  
+  /* Toggle password visibility button */
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Error message styles */
+  .error-message {
+    font-size: 0.875rem; 
+  }
+  
+  .text-yellow-600 {
+    color: #d69e2e;
+  }
+  
+  .text-red-600 {
+    color: #e53e3e; 
+  }
+  
+  /* Response message */
+  .response-message {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+  }
+  

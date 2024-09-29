@@ -1,0 +1,71 @@
+
+.custom-header {
+    width: 83.4%;
+    height: 80px; /* You can adjust this height */
+    background-color: #04162def; /* Change to desired background color */
+    display: flex;
+    justify-content: center; /* Centers the header content horizontally */
+    align-items: center; /* Centers the content vertically */
+    position: absolute;
+    left: 255px;
+  }
+  
+  /* Ensures content inside the header is centered */
+  .header-content {
+    width: 100%;
+    max-width: 1200px; /* You can adjust max-width to limit the header's content width */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px; /* Adds padding to the sides */
+  }
+  
+  .logo {
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
+  }
+  
+  /* Navigation style */
+  .navigation ul {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navigation ul li {
+    margin-right: 20px; /* Spacing between menu items */
+  }
+  
+  .navigation ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+  }
+  
+  .navigation ul li a:hover {
+    color: #ccc; /* Hover effect */
+  }
+
+  /* sidebar styling*/
+  .sidebar-container {
+    display: flex;
+    flex-direction: column;
+    height: 120vh; /* Full viewport height */
+    width: 256px;
+  }
+  
+  .sidebar-footer {
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    /* Push footer to the bottom */
+  }
+  .sidebar-footer{
+    background-color:#04162def; 
+  }
+  
+  
+  
