@@ -1,18 +1,18 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { message } from 'antd'; // Import the message component from antd
+import { message } from 'antd'; 
 import Header from '../components/header';
 import Sidebar from '../components/sidebar';
 import './style.css';
-import { getUserInfo, getCompanyDetails } from '../db'; // Import the function from db.js
+import { getUserInfo } from '../db'; 
+import useDashboardData from '../hooks/useDashboardData'; 
 
 const CompanyDashboard = () => {
+  const { dashboardData, userInfo } = useDashboardData();
   const [currentEmail, setCurrentEmail] = useState('');
-  const [newEmail, setNewEmail] = useState('');
-  const [responseMessage, setResponseMessage] = useState('');
+  const [newEmail, setNewEmail] = useState(''); 
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
-  const [companyInfo, setCompanyInfo] = useState(null); // New state for company info
+
 
   useEffect(() => {
     // Fetch the user info from IndexedDB
@@ -20,7 +20,6 @@ const CompanyDashboard = () => {
       try {
         const userInfo = await getUserInfo();
         if (userInfo && userInfo.email) {
-          setUserInfo(userInfo);
           setCurrentEmail(userInfo.email); // Set current email from user info
         } else {
           console.error('User info not found in IndexedDB.');
@@ -42,11 +41,13 @@ const CompanyDashboard = () => {
 
     if (!token) {
       setResponseMessage('Please log in to update your email.');
+      message.warning('Please log in to update your email.'); // Alert for login requirement
       return;
     }
 
     if (currentEmail === newEmail) {
       setResponseMessage('New email must be different from the current email.');
+      message.warning('New email must be different from the current email.'); // Alert for email match
       return;
     }
 
@@ -82,7 +83,7 @@ const CompanyDashboard = () => {
 
   return (
     <div className="bg-white">
-      <Header userInfo={userInfo} />
+      <Header userInfo={userInfo} dashboardMessage={dashboardData?.message} />
       <Sidebar />
 
       <button className="update" onClick={() => setIsFormVisible(!isFormVisible)}>
@@ -106,7 +107,7 @@ const CompanyDashboard = () => {
             <input
               type="email"
               value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)} // Fixed the change handler
+              onChange={(e) => setNewEmail(e.target.value)}
               placeholder="Enter new email"
               required
               className="form-input"
@@ -115,7 +116,6 @@ const CompanyDashboard = () => {
           <button type="submit" className="submit-button">Submit</button>
         </form>
       )}
-
     </div>
   );
 };
