@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import './loginstyle.css';
-import { storeUserInfo } from '../db'; // Import IndexedDB utility
+import { storeUserInfo } from '../db'; 
+import { BASE_URL } from '../../Config'; 
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ const Login = () => {
     setLoading(true);
     try {
       // Send a POST request to your backend login API
-      const response = await fetch('https://admin-4-hoom.onrender.com/api/auth/login', {
+      const response = await fetch(`${BASE_URL}login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -89,6 +90,7 @@ const Login = () => {
       </form>
       {/* Display response message */}
       {responseMessage && <p className="response-message">{responseMessage}</p>}
+
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getUserInfo } from '../db'; 
-
+import { BASE_URL } from '../../Config';
 const useDashboardData = () => {
   const [dashboardData, setDashboardData] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
@@ -22,7 +22,7 @@ const useDashboardData = () => {
 
     const fetchDashboardData = async (token) => {
       try {
-        const response = await fetch('https://admin-4-hoom.onrender.com/api/auth/admin-dashboard', {
+        const response = await fetch(`${BASE_URL}admin-dashboard`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -44,6 +44,7 @@ const useDashboardData = () => {
         console.error('Error fetching dashboard data:', error);
       }
     };
+    
 
     fetchUserInfo(); // Retrieve token and fetch data
   }, [router]);

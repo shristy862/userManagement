@@ -2,8 +2,8 @@
 import React from 'react';
 import Header from '../components/header';
 import Sidebar from '../components/sidebar';
-import AddCompanyForm from './AddCompany'; // Ensure this is your AddCompanyForm component
-import useDashboardData from '../hooks/useDashboardData'; // Adjust the path if necessary
+import AddCompanyForm from './add_company'; // Ensure this is your AddCompanyForm component
+import useDashboardData from '../hooks/useDashboardData';
 import './style.css';
 
 const AdminDashboard = () => {
