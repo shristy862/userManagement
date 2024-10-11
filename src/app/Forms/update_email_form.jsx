@@ -15,7 +15,7 @@ const UpdateForm = ({
       </button>
 
       {isFormVisible && (
-        <form onSubmit={handleUpdateEmail} className="email-update-form">
+        <form onSubmit={handleUpdateEmail} className="email-update-form text-black">
           <div className="form-group">
             <label className="form-label">Current Email:</label>
             <input
@@ -23,7 +23,7 @@ const UpdateForm = ({
               value={currentEmail}
               placeholder="Enter existing email"
               className="form-input"
-              disabled // Disable input as it is fetched from the database
+              disabled 
             />
           </div>
           <div className="form-group">

@@ -1,55 +1,78 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getUserInfo } from '../db'; 
 import { BASE_URL } from '../../Config';
-const useDashboardData = () => {
+
+const useDashboardData = (endpoint) => {
   const [dashboardData, setDashboardData] = useState(null);
-  const [userInfo, setUserInfo] = useState(null);
+  const [responseMessage, setResponseMessage] = useState('');
+  const [userId, setUserId] = useState('');  // State for userId
+  const [role, setRole] = useState('');      // State for role
   const router = useRouter();
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      const userInfoFromDB = await getUserInfo();
+    const fetchDashboardData = async () => {
+      // Retrieve user info from session storage
+      const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+      console.log('UserInfo from dashboard',userInfo)
+      
+      const email = userInfo?.email; // Use optional chaining to avoid errors if userInfo is null
 
-      if (!userInfoFromDB || !userInfoFromDB.token) {
-        router.push('/login'); // Redirect to login if no token found
+console.log('Extracted email:', email);
+      // Check if userInfo exists and if it has a token
+      if (!userInfo || !userInfo.token) {
+        console.error('User is not authenticated. Redirecting to login.');
+        router.push('/login'); // Redirect to login if not authenticated
         return;
       }
+ 
 
-      setUserInfo(userInfoFromDB);
-      fetchDashboardData(userInfoFromDB.token);
-    };
-
-    const fetchDashboardData = async (token) => {
+      // Fetch dashboard data directly from the API
       try {
-        const response = await fetch(`${BASE_URL}admin-dashboard`, {
+        const response = await fetch(`${BASE_URL}users/${endpoint}`, {
           method: 'GET',
           headers: {
-            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${userInfo.token}`, // Include token in headers
           },
         });
 
+        const data = await response.json(); // Parse the JSON response
+
+        // Log the API response
+        console.log('Dashboard API Response:', data); // Log API response for debugging
+
         if (response.ok) {
-          const data = await response.json();
-          console.log('Dashboard Data:', data); // Log the fetched dashboard data
-          setDashboardData(data); // Set dashboard data
+          console.log('Full API Response:', data); // Log entire response for inspection
+          
+          const welcomeMessage = data.message; 
+          setResponseMessage(welcomeMessage);
+          
+          // Adjust how you extract userId and role based on actual data structure
+          const extractedUserId = data.userId || data.companyId; // Try using different keys based on response structure
+          console.log('Extracted userId:', extractedUserId); // Log to verify the value
+          
+          const extractedRole = data.role || data.userRole; // Adjust key names as needed
+          console.log('Extracted role:', extractedRole); // Log to verify the value
+          
+          // Set the values in state
+          setUserId(extractedUserId);
+          setRole(extractedRole);
+          
+          setDashboardData(data); 
         } else {
-          console.error('Failed to load dashboard data:', response.status);
-          if (response.status === 401) {
-            router.push('/login'); // Redirect to login if unauthorized
-          }
+          console.error('Error fetching dashboard data:', data.message);
+          setResponseMessage(data.message || 'Failed to fetch dashboard data.');
         }
       } catch (error) {
-        console.error('Error fetching dashboard data:', error);
+        console.error('Error during fetching dashboard data:', error);
+        setResponseMessage('An error occurred while fetching data. Please try again later.');
       }
     };
-    
 
-    fetchUserInfo(); // Retrieve token and fetch data
-  }, [router]);
+    fetchDashboardData(); 
+  }, [router, endpoint]);
 
-  return { dashboardData, userInfo };
+  return { dashboardData, responseMessage, userId, role }; 
 };
 
 export default useDashboardData;

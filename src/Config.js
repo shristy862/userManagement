@@ -1,2 +1,2 @@
 
-export const BASE_URL = 'https://admin-4-hoom.onrender.com/api/auth/';
+export const BASE_URL = 'http://localhost:5000/api/';

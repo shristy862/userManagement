@@ -2,15 +2,15 @@
 import React from 'react';
 import './style.css';
 
-const Header = ({ userInfo }) => {
+const Header = ({ role , userId }) => {
   return (
     <header className="custom-header">
       <div className="header-content">
         
         <nav className="navigation">
-          {userInfo && <p>Welcome, {userInfo.role}!</p>}
-           
+        <p>Welcome {role}</p>
         </nav>
+        <p>User ID: {userId}</p>
       </div>
     </header>
   );

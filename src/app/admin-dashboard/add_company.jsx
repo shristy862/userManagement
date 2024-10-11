@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation'; 
 import { Alert } from 'antd';
 import './style.css'; 
-import { storeCompanyDetails, getUserInfo } from '../db';
 import { BASE_URL } from '../../Config'; 
 import AddComForm from '../Forms/add_com_form'; // Import the form component
 
@@ -22,6 +21,7 @@ const AddCompany = () => {
 
   const [alertMessage, setAlertMessage] = useState('');
   const [showAlert, setShowAlert] = useState(false);
+  const [showForm, setShowForm] = useState(true); 
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -38,18 +38,24 @@ const AddCompany = () => {
     setLoading(true); // Set loading state to true to indicate the process started
   
     try {
-      // Retrieve the token from IndexedDB
-      const userInfo = await getUserInfo();
+      // Retrieve user info from session storage
+      const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
       
+      // Check if userInfo exists and if it has a token
       if (!userInfo || !userInfo.token) {
+        console.error('User is not authenticated. Redirecting to login.');
         router.push('/login'); // Redirect to login if no user info or token is found
         return;
       }
 
       const token = userInfo.token;
+      const userId = userInfo.id; // Assuming you have the userId in the userInfo object
+
+      console.log('token from SessionStorage', token);
+      console.log('userId from sessionStorage', userId);
   
       // Make API call to add company
-      const response = await fetch(`${BASE_URL}addcompany`, {
+      const response = await fetch(`${BASE_URL}users/admin-dashboard/${userId}/add-company`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`, // Include the token in Authorization header
@@ -60,12 +66,14 @@ const AddCompany = () => {
   
       if (response.ok) {
         const responseData = await response.json();
-        await storeCompanyDetails(companyDetails);
+        console.log(responseData);
         setAlertMessage('Company added successfully!');
         setShowAlert(true);
-  
+        
+        setShowForm(false);
+      
         setTimeout(() => {
-          router.push('/login');
+          router.push('/admin-dashboard'); // Redirect to the dashboard after success
         }, 2000);
       } else {
         const errorData = await response.json();
@@ -73,6 +81,7 @@ const AddCompany = () => {
         setShowAlert(true);
       }
     } catch (error) {
+      console.error('Error:', error); // Log any unexpected errors
       setAlertMessage('An unexpected error occurred. Please try again later.');
       setShowAlert(true);
     } finally {
@@ -81,7 +90,7 @@ const AddCompany = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container_box">
       {showAlert && (
         <Alert
           message={alertMessage}
@@ -93,12 +102,14 @@ const AddCompany = () => {
         />
       )}
       {/* Render the form using AddComForm component */}
-      <AddComForm 
-        companyDetails={companyDetails}
-        handleInputChange={handleInputChange}
-        addCompany={addCompany}
-        loading={loading}
-      />
+      {showForm && (
+        <AddComForm 
+          companyDetails={companyDetails}
+          handleInputChange={handleInputChange}
+          addCompany={addCompany}
+          loading={loading}
+        />
+      )}
     </div>
   );
 };

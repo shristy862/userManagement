@@ -2,22 +2,30 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import './loginstyle.css';
-import { storeUserInfo } from '../db'; 
-import { BASE_URL } from '../../Config'; 
+import LoginForm from '../Forms/login_form'
+import { BASE_URL } from '../../Config';
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
+  const [isSignup, setIsSignup] = useState(false);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [responseMessage, setResponseMessage] = useState('');
   const router = useRouter();
 
+  const handleFlip = () => {
+    setIsSignup(!isSignup);
+    setName('');
+    setEmail(''); 
+    setPassword('');
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Send a POST request to your backend login API
-      const response = await fetch(`${BASE_URL}login`, {
+      const response = await fetch(`${BASE_URL}users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -25,25 +33,33 @@ const Login = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json(); // Parse JSON response
-      console.log('API Response:', data); // Log the entire response 
+      const data = await response.json();
+      console.log('API Response:', data);
 
       if (response.ok) {
-        console.log('User Role from Login:', data.role); // Log the role
+        const userRole = data.user.role; 
+        const userId = data.user.id; 
+        const token = data.token; // Get the token from the response
+        console.log('Token:', token);
 
-        // Store token and user info in IndexedDB
-        await storeUserInfo({
-          token: data.token, // Store token
-          role: data.role,   // Store role
-          email: email,      // Store email
-        });
+        const userInfo = {
+          token: token,
+          role: userRole,
+          email: email, 
+          id: userId,
+          
+        };
+
+        sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+        console.log('User Info from sessionStorage:', userInfo);
+        
         setResponseMessage('Login successful!');
 
         // Redirect based on user role
-        if (data.role === 'admin') {
-          router.push('/admin-dashboard'); // Redirect to admin dashboard
-        } else if (data.role === 'user') {
-          router.push('/company-dashboard'); // Redirect to company dashboard
+        if (userRole === 'admin') {
+          router.push('/admin-dashboard');
+        } else if (userRole === 'company') {
+          router.push('/company-dashboard');
         } else {
           setResponseMessage('Invalid user role.');
         }
@@ -53,43 +69,58 @@ const Login = () => {
     } catch (error) {
       console.error('Error during login:', error);
       setResponseMessage('An error occurred. Please try again later.');
-    }
-    finally {
-      setLoading(false); // Stop loading
+    } finally {
+      setLoading(false);
     }
   };
 
+  // signup
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    console.log({ name, email, password });
+    try {
+      const response = await fetch(`${BASE_URL}users/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const data = await response.json();
+      console.log('Signup Response:', data); 
+      if (response.ok) {
+        setResponseMessage('Signup successful! Please log in.');
+        handleFlip(); 
+      } else {
+        setResponseMessage(data.message || 'Signup failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
+      setResponseMessage('An error occurred. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+
   return (
-    <div className="login-container bg-white">
-      <h1>Login</h1>
-      <form onSubmit={handleLogin} className="flex flex-col">
-        <div className="form-group">
-          <input
-            type="email"
-            className="input"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="password"
-            className="input"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            required
-          />
-        </div>
-        <button type="submit" className="submit-button"  disabled={loading}>
-        {loading ? 'Logging in...' : 'Login'}
-        </button>
-        
-      </form>
-      {/* Display response message */}
-      {responseMessage && <p className="response-message">{responseMessage}</p>}
+    <div className="front">
+      <LoginForm
+        handleLogin={handleLogin}
+        email={email}
+        setEmail={setEmail}
+        password={password}
+        setPassword={setPassword}
+        loading={loading}
+        responseMessage={responseMessage}
+        handleFlip={handleFlip}
+        handleSignup={handleSignup}
+        isSignup={isSignup} 
+        name={name} 
+        setName={setName}
+      />
 
     </div>
   );

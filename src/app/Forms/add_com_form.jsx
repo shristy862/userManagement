@@ -3,6 +3,7 @@ import React from 'react';
 const AddComForm = ({ companyDetails, handleInputChange, addCompany, loading }) => {
   return (
     <form onSubmit={addCompany}>
+      <h1 className='text-black'>Add Company Form</h1>
       <input
         type="text"
         name="companyName"

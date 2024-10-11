@@ -14,66 +14,67 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .update:hover {
-    background-color: #0184fefe; /* Darker green on hover */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
+    background-color: #0184fefe; 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
 /* Form styling */
-
 .email-update-form {
     position: absolute;
+    display: grid;
+    place-items: center;
     top: 250px;
     left: 570px;
     margin: 20px;
-    width: 40%; /* Add some margin around the form */
-    padding: 20px; /* Add padding to the form */
-    background-color: gray; /* Light background for contrast */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    width: 40%; 
+    padding: 2px; 
+    /* background-color: gray; */
+    border-radius: 8px; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Group styling */
 .form-group {
     display: grid;
     place-items: center;
-    margin-bottom: 15px; /* Spacing between form fields */
+    margin-bottom: 15px; 
 }
 
 /* Label styling */
 .form-label {
-    display: block; /* Make labels block elements */
-    margin-bottom: 5px; /* Space between label and input */
-    font-weight: bold; /* Make labels bold */
+    display: block; 
+    margin-bottom: 5px; 
+    font-weight: bold; 
 }
 
 /* Input field styling */
 .form-input {
     color: black;
-    width: 80%; /* Full width of the container */
-    padding: 10px; /* Padding inside the input */
-    border: 1px solid #ccc; /* Border color */
-    border-radius: 4px; /* Rounded corners */
-    transition: border-color 0.3s; /* Smooth transition for border color */
+    width: 100%;
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    transition: border-color 0.3s; 
 }
 
 .form-input:focus {
-    border-color: #04162def; /* Change border color on focus */
-    outline: none; /* Remove default outline */
+    border-color: #04162def; 
+    outline: none; 
 }
 
 /* Button styling */
 .submit-button {
-    padding: 10px 20px; /* Padding for the button */
-    background-color: #04162def; /* Button background */
-    color: white; /* Button text color */
-    border: none; /* Remove border */
-    border-radius: 4px; /* Rounded corners */
-    cursor: pointer; /* Change cursor on hover */
-    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition */
+    padding: 10px 20px; 
+    background-color: #04162def; 
+    color: white; 
+    border: none; 
+    border-radius: 4px;
+    cursor: pointer; 
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 /* Button hover effect */
 .submit-button:hover {
-    background-color: #033b7a; /* Darker shade for hover effect */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+    background-color: #257ee4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }

@@ -1,106 +1,81 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { message } from 'antd'; 
-import { useRouter } from 'next/navigation'; 
 import Header from '../components/header';
 import Sidebar from '../components/sidebar';
-import UpdateForm from '../Forms/update_email_form'; // Import the UpdateForm component
+import UpdateForm from '../Forms/update_email_form'; 
 import './style.css';
-import { getUserInfo } from '../db'; // Utility to fetch user info from IndexedDB
-import { BASE_URL } from '../../Config'; // Base URL for API requests
+import useDashboardData from '../hooks/useDashboardData'; 
 
 const CompanyDashboard = () => {
-  const [currentEmail, setCurrentEmail] = useState('');
+  const [currentEmail, setCurrentEmail] = useState(''); 
   const [newEmail, setNewEmail] = useState('');
-  const [isFormVisible, setIsFormVisible] = useState(false);
-  const [emailUpdated, setEmailUpdated] = useState(false); // Track if email is updated
-  const router = useRouter(); // Initialize the router
+  const [isFormVisible, setIsFormVisible] = useState(false); 
+  
+  const { userId, role, dashboardData } = useDashboardData('company-dashboard');
 
-  // Fetch user information when component mounts
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const userInfo = await getUserInfo();
-        if (userInfo && userInfo.email) {
-          setCurrentEmail(userInfo.email); // Set the current email from userInfo
-        } else {
-          console.error('User information not found in IndexedDB.');
-        }
-      } catch (error) {
-        console.error('Error fetching user info from IndexedDB:', error);
-      }
-    };
+    if (dashboardData) {
+      const companyEmail = dashboardData.email || ''; 
+      setCurrentEmail(companyEmail); 
+    }
+  }, [dashboardData]); 
 
-    fetchUserInfo(); // Fetch user info on component mount
-  }, []);
+  // Loading state for the dashboard
+  if (!dashboardData) {
+    return <div>Loading dashboard...</div>;
+  }
 
-  // Handle email update form submission
   const handleUpdateEmail = async (e) => {
     e.preventDefault();
 
-    const userInfoFromDB = await getUserInfo(); // Fetch user info from IndexedDB
-    const token = userInfoFromDB?.token; // Get token from the user info
+    // Retrieve userInfo from session storage
+    const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    console.log('userInfo from update email route',userInfo)
+    // Extract userId and token from userInfo
+    const userId = userInfo?.id; // Adjust according to your userInfo structure
+    const token = userInfo?.token;     // Adjust according to your userInfo structure
 
-    if (!token) {
-      message.warning('Please log in to update your email.');
-      return;
-    }
-
-    if (currentEmail === newEmail) {
-      message.warning('New email must be different from the current email.');
-      return;
-    }
+    // Log userId and token to the console
+    console.log('User ID from update email:', userId);
+    console.log('Token from update email:', token);
 
     try {
-      const response = await fetch(`${BASE_URL}company/update-email`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: currentEmail, newEmail }),
-      });
+        const response = await fetch(`http://localhost:5000/api/users/company-dashboard/${userId}/update-email`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({ newEmail }),
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      if (response.ok) {
-        message.success('Email updated successfully! Redirecting to login...');
-        const updatedUserInfo = { ...userInfoFromDB, email: newEmail };
-        localStorage.setItem('userInfo', JSON.stringify(updatedUserInfo)); // Optionally update localStorage
-        setCurrentEmail(newEmail);
-        setNewEmail('');
-        setEmailUpdated(true); // Set emailUpdated to true
-      } else {
-        message.error(data.message || 'Failed to update email.');
-      }
+        if (response.ok) {
+            message.success(data.message);
+            setCurrentEmail(newEmail); // Update current email to the new email
+            setNewEmail(''); // Clear the input field
+        } else {
+            message.error(data.message);
+        }
     } catch (error) {
-      console.error('Error updating email:', error);
-      message.error('An error occurred. Please try again.');
+        console.error('Error updating email:', error);
+        message.error('Something went wrong. Please try again.');
     }
-  };
-
-  // Redirect to /login 5 seconds after email update
-  useEffect(() => {
-    if (emailUpdated) {
-      const timer = setTimeout(() => {
-        router.push('/login'); // Redirect to login
-      }, 5000); // 5-second delay
-
-      return () => clearTimeout(timer); // Cleanup the timer on unmount
-    }
-  }, [emailUpdated, router]);
+};
 
   return (
     <div className="bg-white">
-      <Header />
+      <Header role={role} userId={userId} />
       <Sidebar />
       
-      {/* Render the UpdateForm component */}
+      {/* Pass the necessary props to UpdateForm */}
       <UpdateForm
         currentEmail={currentEmail}
         newEmail={newEmail}
         setNewEmail={setNewEmail}
-        handleUpdateEmail={handleUpdateEmail}
+        handleUpdateEmail={handleUpdateEmail} 
         isFormVisible={isFormVisible}
         setIsFormVisible={setIsFormVisible}
       />
