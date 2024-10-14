@@ -1,4 +1,4 @@
-const User = require('../modals/userModel');
+import User  from '../modals/userModel';
 
 exports.signup = async (req, res) => {
   const { name, email, password } = req.body;

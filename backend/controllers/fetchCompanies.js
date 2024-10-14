@@ -1,4 +1,4 @@
-const Company = require('../modals/companyModal');  
+import Company from '../modals/companyModal';  
 
 exports.fetchAddedCompanies = async (req, res) => {
   try {

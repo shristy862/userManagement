@@ -1,5 +1,5 @@
-const Company = require('../modals/companyModal');  
-const User = require('../modals/userModel');        
+import Company from '../modals/companyModal';  
+import User from '../modals/userModel';        
 
 exports.getAdminDashboard = async (req, res) => {
   try {

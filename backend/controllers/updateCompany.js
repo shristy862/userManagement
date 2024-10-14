@@ -1,4 +1,4 @@
-const Company = require('../modals/companyModal');
+import Company from '../modals/companyModal' ;
 
 exports.updateCompanyDetails = async (req, res) => {
   const companyId = req.params.id; 

@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-
+import mongoose from 'mongoose';
 const MONGO_URI ='mongodb+srv://shristyv862:862SH@shristycluster.zj6ce.mongodb.net/?retryWrites=true&w=majority&appName=shristyCluster'
 
 const connectDB = async () => {

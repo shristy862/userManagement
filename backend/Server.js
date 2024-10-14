@@ -1,7 +1,10 @@
-require('dotenv').config(); 
-const express = require('express');
-const connectDB = require('./utils/db');
-const cors = require('cors');
+import dotenv from 'dotenv';
+dotenv.config();
+import express from 'express';
+import connectDB from './utils/db';
+import userRoutes from './routes/userRoutes';
+import authRoutes from './routes/authRoutes';
+import cors from 'cors';
 const app = express();
 
 app.use(cors());
@@ -12,8 +15,8 @@ app.use(express.json()); // For parsing JSON data
 connectDB();
 
 // Routes
-app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/auth', require('./routes/authRoutes'));  
+app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes); 
 
 // Start server
 const PORT = process.env.PORT || 5000;

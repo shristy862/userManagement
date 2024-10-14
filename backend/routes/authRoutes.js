@@ -1,5 +1,5 @@
-const express = require('express');
-const { forgotPassword, resetPassword } = require('../controllers/authController');
+import express  from 'express';
+import { forgotPassword, resetPassword } from '../controllers/authController';
 
 const router = express.Router();
 

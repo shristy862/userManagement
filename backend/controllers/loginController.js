@@ -1,7 +1,7 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../modals/userModel');
-const Company = require('../modals/companyModal'); 
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import User from '../modals/userModel' ;
+import Company from '../modals/companyModal'; 
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;

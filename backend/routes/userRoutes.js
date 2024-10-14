@@ -1,13 +1,13 @@
-const express = require('express');
-const { signup } = require('../controllers/signupController');
-const { login } = require('../controllers/loginController');
-const { forgotPassword, resetPassword } = require('../controllers/authController');
-const adminController = require('../controllers/adminController');
-const companyController = require('../controllers/companyController'); 
-const fetchCompany = require('../controllers/fetchCompanies')
-const emailUpdateController = require('../controllers/emailUpdateController');
-const updateCompany = require('../controllers/updateCompany');
-const verifyToken = require('../middleware/verifyToken');
+import express from 'express';
+import { signup } from '../controllers/signupController';
+import { login } from '../controllers/loginController';
+import { forgotPassword, resetPassword } from '../controllers/authController';
+import adminController from '../controllers/adminController' ;
+import companyController from '../controllers/companyController'; 
+import fetchCompany from '../controllers/fetchCompanies';
+import emailUpdateController from '../controllers/emailUpdateController';
+import updateCompany from'../controllers/updateCompany';
+import verifyToken from '../middleware/verifyToken';
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
-const crypto = require('crypto');
-const User = require('../modals/userModel'); 
+import crypto from 'crypto';
+import User from '../modals/userModel'; 
 
 // Function to handle password reset request
 exports.forgotPassword = async (req, res) => {

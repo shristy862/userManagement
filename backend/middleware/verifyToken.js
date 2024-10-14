@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 const verifyToken = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
@@ -15,7 +15,7 @@ const verifyToken = (req, res, next) => {
 
     next(); 
   } catch (error) {
-    return res.status(400).json({ message: 'Invalid token.' });
+    return res.status(400).json({ message: 'Invalid token.' , error });
   }
 };
 
