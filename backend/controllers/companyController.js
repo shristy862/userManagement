@@ -1,6 +1,6 @@
-import  Company from 'modals/companyModal';
+import Company from '../modals/companyModal.js';
 
-exports.getCompanyDashboard = async (req, res) => {
+export const getCompanyDashboard = async (req, res) => {
   try {
     const userId = req.user.id;
     const userRole = req.user.role;

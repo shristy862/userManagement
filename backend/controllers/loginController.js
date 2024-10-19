@@ -1,9 +1,9 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import User from '../modals/userModel' ;
-import Company from '../modals/companyModal'; 
+import User from '../modals/userModel.js' ;
+import Company from '../modals/companyModal.js'; 
 
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
   const { email, password } = req.body;
   const trimmedPassword = password.trim();
   console.log(trimmedPassword);

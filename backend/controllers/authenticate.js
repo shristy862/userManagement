@@ -1,8 +1,7 @@
 import crypto from 'crypto';
-import User from '../modals/userModel'; 
+import User from '../modals/userModel.js'
 
-// Function to handle password reset request
-exports.forgotPassword = async (req, res) => {
+export const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
   try {
@@ -32,7 +31,7 @@ exports.forgotPassword = async (req, res) => {
 };
 
 // Function to reset the password using the token
-exports.resetPassword = async (req, res) => {
+export const resetPassword = async (req, res) => {
   const { token, newPassword } = req.body;
 
   try {

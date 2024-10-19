@@ -1,7 +1,7 @@
-import Company from '../modals/companyModal';  
-import User from '../modals/userModel';        
+import Company from '../modals/companyModal.js';  
+import User from '../modals/userModel.js';        
 
-exports.getAdminDashboard = async (req, res) => {
+const getAdminDashboard = async (req, res) => {
   try {
     const userId = req.user.id;
     const userRole = req.user.role; 
@@ -18,7 +18,7 @@ exports.getAdminDashboard = async (req, res) => {
   }
 };
 
-exports.addCompany = async (req, res) => {
+const addCompany = async (req, res) => {
   try {
     const userId = req.params.id; 
 
@@ -77,3 +77,5 @@ exports.addCompany = async (req, res) => {
     res.status(500).json({ message: 'Server error. Could not add company.' });
   }
 };
+
+export default { getAdminDashboard, addCompany };

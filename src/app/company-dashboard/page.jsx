@@ -41,7 +41,7 @@ const CompanyDashboard = () => {
     console.log('Token from update email:', token);
 
     try {
-        const response = await fetch(`http://localhost:5000/api/users/company-dashboard/${userId}/update-email`, {
+        const response = await fetch(`http://localhost:5000/api/users/company-dashboard/${userId}/update_email`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

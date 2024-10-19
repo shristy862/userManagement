@@ -1,6 +1,6 @@
-import Company from '../modals/companyModal';  
+import Company from '../modals/companyModal.js';  
 
-exports.fetchAddedCompanies = async (req, res) => {
+const fetchAddedCompanies = async (req, res) => {
   try {
     const userId = req.params.id;  
     console.log(userId);
@@ -19,3 +19,4 @@ exports.fetchAddedCompanies = async (req, res) => {
     res.status(500).json({ message: 'Server error. Could not fetch companies.' });
   }
 };
+export default fetchAddedCompanies;

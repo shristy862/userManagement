@@ -1,9 +1,9 @@
-import Company from '../modals/companyModal';  
+import Company from '../modals/companyModal.js';  
 
-exports.updateEmail = async (req, res) => {
+const updateEmail = async (req, res) => {
   try {
     const companyId = req.params.id; 
-    console.log(companyId) 
+    console.log('Here is the companyID',companyId) 
     const { newEmail } = req.body;    
 
     const company = await Company.findByIdAndUpdate(
@@ -25,3 +25,4 @@ exports.updateEmail = async (req, res) => {
     res.status(500).json({ message: 'Server error. Could not update email.' });
   }
 };
+export default updateEmail;

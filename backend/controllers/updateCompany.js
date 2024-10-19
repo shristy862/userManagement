@@ -1,8 +1,8 @@
-import Company from '../modals/companyModal' ;
+import Company from '../modals/companyModal.js';
 
-exports.updateCompanyDetails = async (req, res) => {
+const updateCompanyDetails = async (req, res) => {
   const companyId = req.params.id; 
-  console.log(companyId); 
+  console.log('here is the company ID',companyId); 
 
   const { companyName, registrationNo, gstNo, contactNo, location, representative } = req.body; 
 
@@ -41,3 +41,4 @@ exports.updateCompanyDetails = async (req, res) => {
     res.status(500).json({ message: 'Server error. Could not update company details.' });
   }
 };
+export default updateCompanyDetails;

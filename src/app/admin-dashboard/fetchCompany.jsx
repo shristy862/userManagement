@@ -44,7 +44,7 @@ const FetchCompanies = () => {
 
       try {
         // Use `id` in the fetch URL
-        const response = await fetch(`http://localhost:5000/api/users/admin-dashboard/${id}/fetchaddedcompanies`, {
+        const response = await fetch(`http://localhost:5000/api/users/admin-dashboard/${id}/companies`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`, // Include token

@@ -1,6 +1,6 @@
-import User  from '../modals/userModel';
+import User  from '../modals/userModel.js';
 
-exports.signup = async (req, res) => {
+export const signup = async (req, res) => {
   const { name, email, password } = req.body;
   console.log('Received signup data:', req.body);
 
